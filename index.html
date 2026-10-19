@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gummy Ricochet is a colorful shooting puzzle with wall bounces, four skills, 30 levels and Endless play.">
+  <link rel="icon" href="data:,">
+  <title>Gummy Ricochet — Bounce, Match & Master</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --cream: #fff8ed;
+      --paper: #fffdf8;
+      --cocoa: #482451;
+      --berry: #a63e70;
+      --berry-dark: #74345c;
+      --peach: #f1abc3;
+      --mint: #b8dcd5;
+      --line: #e8cbdc;
+      --shadow: rgba(90, 49, 40, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--cocoa);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(244, 182, 144, 0.34), transparent 28rem),
+        linear-gradient(180deg, var(--cream), #fff3e5 72%, #f5e2d0);
+      font-family: "Avenir Next", Avenir, "Trebuchet MS", sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--berry-dark);
+      text-underline-offset: 0.2em;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--berry);
+      outline-offset: 4px;
+      border-radius: 0.25rem;
+    }
+
+    .site-header,
+    main,
+    footer {
+      width: min(70rem, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 1.25rem;
+    }
+
+    .brand {
+      color: var(--cocoa);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+      min-height: 37rem;
+      padding-block: clamp(4rem, 9vw, 8rem);
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-size: clamp(3.4rem, 9vw, 7.6rem);
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 4rem);
+    }
+
+    .hero-copy > p {
+      max-width: 39rem;
+      margin: 1.6rem 0 0;
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+    }
+
+    .game-loop {
+      position: relative;
+      padding: 2rem;
+      border: 1px solid var(--line);
+      border-radius: 45% 45% 1.75rem 1.75rem / 18% 18% 1.75rem 1.75rem;
+      background: var(--paper);
+      box-shadow: 0 1.6rem 4rem var(--shadow);
+    }
+
+    .game-loop::before {
+      content: "";
+      position: absolute;
+      inset: 0.8rem 1.15rem auto;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: repeating-linear-gradient(90deg, var(--peach) 0 2.2rem, var(--mint) 2.2rem 4.4rem);
+    }
+
+    .game-loop ol {
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: loop;
+    }
+
+    .game-loop li {
+      display: grid;
+      grid-template-columns: 2.2rem 1fr;
+      gap: 0.8rem;
+      align-items: baseline;
+      padding: 0.95rem 0;
+      border-bottom: 1px solid var(--line);
+      counter-increment: loop;
+      font-weight: 700;
+    }
+
+    .game-loop li:last-child {
+      border-bottom: 0;
+    }
+
+    .game-loop li::before {
+      content: counter(loop);
+      color: var(--berry);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+    }
+
+    .features {
+      padding-block: clamp(4rem, 9vw, 8rem);
+      border-top: 1px solid var(--line);
+    }
+
+    .features > p {
+      max-width: 43rem;
+      margin: 1.25rem 0 3rem;
+      font-size: 1.1rem;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      border-block: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .feature-list li {
+      min-height: 13rem;
+      padding: 1.7rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .feature-list li:last-child {
+      border-right: 0;
+    }
+
+    .feature-list strong {
+      display: block;
+      margin-bottom: 0.8rem;
+      color: var(--berry-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      line-height: 1.15;
+    }
+
+    .closing {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: end;
+      padding-block: clamp(4rem, 8vw, 7rem);
+    }
+
+    .closing p {
+      max-width: 42rem;
+      margin: 1.2rem 0 0;
+      font-size: 1.1rem;
+    }
+
+    .platform {
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--cocoa);
+      border-radius: 999px;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 1.5rem 2.5rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 48rem) {
+      .hero,
+      .closing {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-list li {
+        min-height: 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .feature-list li:last-child {
+        border-bottom: 0;
+      }
+
+      .platform {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 32rem) {
+      .site-header,
+      footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: clamp(3.1rem, 18vw, 5rem);
+      }
+    }
+    .game-logo { display: block; width: min(100%, 22rem); height: auto; margin: 0 auto 1rem; }
+    .eyebrow { color: #74345c; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+    .support { padding-block: 2rem 4rem; border-top: 1px solid var(--line); }
+    .support h2 { font-size: 2rem; }
+    .support p { max-width: 52rem; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Gummy Ricochet home">Gummy Ricochet</a>
+    <nav aria-label="Main navigation">
+      <a href="#gameplay">Gameplay</a>
+      <a href="#support">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow">A colorful shooting puzzle</span>
+        <h1 id="hero-title">One bounce. A whole cascade.</h1>
+        <p>Find the angle, connect matching colors, and send unsupported gummies tumbling. Take on 30 levels or build your next Endless high score.</p>
+      </div>
+      <aside class="game-loop" aria-label="How to play">
+        <img class="game-logo" src="assets/logo.png" alt="Gummy Ricochet" width="1774" height="887">
+        <ol>
+          <li>Choose one of three launchers</li>
+          <li>Aim directly or bounce off a wall</li>
+          <li>Match three and drop whole clusters</li>
+          <li>Charge skills and plan your next shot</li>
+        </ol>
+      </aside>
+    </section>
+    <section class="features" id="gameplay" aria-labelledby="gameplay-title">
+      <h2 id="gameplay-title">A little aim. Plenty of strategy.</h2>
+      <p>The board keeps moving. Make space with a clever bank shot, save the right color in HOLD, and choose when to spend each skill's energy.</p>
+      <ul class="feature-list">
+        <li>
+          <strong>30 levels, six chapters</strong>
+          Learn the basics, practice four color-powered skills, and take on special challenges. Earn stars and unlock each new level through play.
+        </li>
+        <li>
+          <strong>Build an Endless run</strong>
+          Recycle falling gummies into ammo, spend earned Credits on supplies, and choose from 24 Buffs with upgrades and powerful combinations.
+        </li>
+        <li>
+          <strong>Catch a colorful bonus</strong>
+          Activate a reward gummy for a 30-second basket round. Collect colors for extra ammo and catch every offered gummy for a perfect-round score bonus.
+        </li>
+      </ul>
+    </section>
+    <section class="closing" aria-labelledby="closing-title">
+      <div>
+        <h2 id="closing-title">Make your next bounce count.</h2>
+        <p>Play offline with no account, ads or in-app purchases. Saved runs, level progress and your local leaderboard stay on your device. Music, sound, haptics and the aim guide have separate settings.</p>
+      </div>
+      <span class="platform">iPhone &amp; iPad<br>iOS 15 or later</span>
+    </section>
+    <section class="support" id="support" aria-labelledby="support-title">
+      <h2 id="support-title">Developer &amp; support</h2>
+      <p>Developer account: <strong>Jinxin Wu</strong><br>Gummy Ricochet, version 1.0</p>
+      <p>For help or privacy questions, use the support options on the Gummy Ricochet App Store product page. When reporting a problem, include your device model, iOS version and the steps that led to it.</p>
+      <p>Read our <a href="privacy.html">Privacy Policy</a> for information about local storage and deleting game data.</p>
+    </section>
+  </main>
+  <footer>
+    <span>Copyright © 2026 Jinxin Wu. All rights reserved.</span>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+</body>
+</html>
